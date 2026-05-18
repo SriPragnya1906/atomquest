@@ -1,26 +1,268 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700;800;900&display=swap');
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Editorial Cream & White Glass Theme Variables */
+  --bg-main: #F7F5F0;
+  --bg-card: rgba(255, 255, 255, 0.6);
+  --bg-card-hover: rgba(255, 255, 255, 0.8);
+  --border-glow: rgba(44, 30, 26, 0.08);
+  --border-glow-hover: rgba(44, 30, 26, 0.15);
+  
+  --primary: 20 20% 15%;        /* Elegant Espresso Black */
+  --secondary: 35 30% 45%;     /* Earthy Bronze Gold */
+  --accent: 14 60% 55%;        /* Terracotta Coral */
+  
+  --text-main: #2C221E;        /* Warm Dark Espresso */
+  --text-muted: #7A6F6A;       /* Earthy Warm Grey */
+  
+  --success: 142 30% 40%;      /* Soft Sage Green */
+  --warning: 35 70% 45%;       /* Warm Amber Honey */
+  --danger: 10 70% 50%;        /* Coral Terracotta */
 }
 
-@theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
+@theme {
+  --color-bg-main: var(--bg-main);
+  --color-bg-card: var(--bg-card);
+  --color-bg-card-hover: var(--bg-card-hover);
+  --font-sans: 'Poppins', sans-serif;
+  --font-display: 'Poppins', sans-serif;
 }
 
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
+/* Base Body with stunning Warm Cream Backwash */
+body {
+  background-color: #F7F5F0;
+  background-image: 
+    radial-gradient(circle at 15% 15%, rgba(61, 43, 36, 0.04) 0%, transparent 50%),
+    radial-gradient(circle at 80% 80%, rgba(208, 169, 126, 0.07) 0%, transparent 60%),
+    radial-gradient(circle at 50% 30%, rgba(220, 210, 190, 0.2) 0%, transparent 70%);
+  background-attachment: fixed;
+  color: #2C221E;
+  font-family: 'Poppins', sans-serif;
+  overflow-x: hidden;
+  position: relative;
+  min-height: 100vh;
+}
+
+/* Typography Overrides */
+* {
+  font-family: 'Poppins', sans-serif !important;
+}
+
+/* Let the cosmic background show through the main wrapper */
+.bg-\[\#F7F5F0\] {
+  background: transparent !important;
+}
+
+/* Frosted Glass Header overrides */
+header.bg-white {
+  background: rgba(247, 245, 240, 0.75) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border-bottom: 1px solid rgba(44, 30, 26, 0.08) !important;
+  box-shadow: 0 4px 30px rgba(44, 30, 26, 0.02) !important;
+  color: #2C221E !important;
+}
+
+/* Glass Panels with high-fidelity warm light parameters */
+.glass-panel {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(44, 30, 26, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(44, 30, 26, 0.03) !important;
+  transition: all 0.3s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  color: #2C221E !important;
+}
+
+.glass-panel-hover:hover {
+  background: rgba(255, 255, 255, 0.8) !important;
+  border-color: rgba(44, 30, 26, 0.15) !important;
+  box-shadow: 0 12px 40px 0 rgba(44, 30, 26, 0.06) !important;
+  transform: translateY(-2px) !important;
+}
+
+/* Override all hardcoded White BG components to frosted translucent card glass */
+.bg-white {
+  background: rgba(255, 255, 255, 0.6) !important;
+  backdrop-filter: blur(24px) !important;
+  -webkit-backdrop-filter: blur(24px) !important;
+  border: 1px solid rgba(44, 30, 26, 0.08) !important;
+  box-shadow: 0 8px 32px 0 rgba(44, 30, 26, 0.03) !important;
+  color: #2C221E !important;
+}
+
+.bg-\[\#FAF8F5\] {
+  background: rgba(255, 255, 255, 0.3) !important;
+  border: 1px solid rgba(44, 30, 26, 0.05) !important;
+}
+
+/* Form inputs & select overrides */
+input, select, textarea {
+  background: rgba(255, 255, 255, 0.5) !important;
+  border: 1px solid rgba(44, 30, 26, 0.08) !important;
+  color: #2C221E !important;
+  border-radius: 12px !important;
+  backdrop-filter: blur(10px) !important;
+  -webkit-backdrop-filter: blur(10px) !important;
+  transition: all 0.2s ease-in-out !important;
+}
+
+input::placeholder, textarea::placeholder {
+  color: rgba(44, 30, 26, 0.4) !important;
+}
+
+input:focus, select:focus, textarea:focus {
+  border-color: rgba(44, 30, 26, 0.25) !important;
+  box-shadow: 0 0 0 3px rgba(44, 30, 26, 0.06) !important;
+  outline: none !important;
+}
+
+/* Dropdown selections matching warm theme option lists */
+select option {
+  background: #ffffff !important;
+  color: #2C221E !important;
+}
+
+/* Earthy Espresso primary text maintains rich dark warm tones */
+.text-\[\#2C221E\] {
+  color: #2C221E !important;
+}
+
+/* Muted warm text classes maintain their soft bronze gray tones */
+.text-\[\#7A6F6A\] {
+  color: #7A6F6A !important;
+}
+
+.text-\[\#8C7569\] {
+  color: #8C7569 !important;
+}
+
+/* Dynamic dividers & border overlays mapping */
+.border-\[\#E8E5DD\] {
+  border-color: rgba(44, 30, 26, 0.08) !important;
+}
+
+.border-\[\#F2EFE8\] {
+  border-color: rgba(44, 30, 26, 0.05) !important;
+}
+
+/* Active Highlight Outline Mapping using Espresso gold glow */
+.active-glow {
+  box-shadow: 0 0 15px rgba(140, 117, 105, 0.15) !important;
+  border-color: #2D1E18 !important;
+}
+
+/* High contrast espresso/brown buttons */
+.bg-\[\#2D1E18\] {
+  background: #2D1E18 !important;
+  color: #ffffff !important;
+  border: 1px solid rgba(44, 30, 26, 0.1) !important;
+  box-shadow: 0 4px 15px rgba(44, 30, 26, 0.1) !important;
+  border-radius: 12px !important;
+  transition: all 0.2s cubic-bezier(0.2, 0.8, 0.2, 1) !important;
+  font-weight: 500 !important;
+}
+
+.bg-\[\#2D1E18\]:hover {
+  background: #423028 !important;
+  box-shadow: 0 4px 20px rgba(44, 30, 26, 0.15) !important;
+  transform: translateY(-1px) !important;
+}
+
+/* Quick hover layouts */
+.hover\:bg-\[\#FCFAF7\]:hover {
+  background: rgba(255, 255, 255, 0.9) !important;
+}
+
+.bg-\[\#2D1E18\]\/5 {
+  background: rgba(44, 30, 26, 0.04) !important;
+}
+
+.border-\[\#2D1E18\]\/15 {
+  border-color: rgba(44, 30, 26, 0.1) !important;
+}
+
+/* Confetti button override */
+.bg-amber-600 {
+  background: linear-gradient(135deg, #d97706, #b45309) !important;
+  border-color: rgba(44, 30, 26, 0.1) !important;
+  color: #ffffff !important;
+}
+
+/* Success states */
+.text-emerald-800 {
+  color: #065f46 !important;
+}
+
+.bg-emerald-50 {
+  background: rgba(16, 185, 129, 0.08) !important;
+  border-color: rgba(16, 185, 129, 0.15) !important;
+}
+
+/* Alerts / Information widgets updates */
+.bg-amber-50 {
+  background: rgba(245, 158, 11, 0.05) !important;
+  border-color: rgba(245, 158, 11, 0.15) !important;
+  color: #92400e !important;
+}
+.text-amber-850, .text-amber-800 {
+  color: #92400e !important;
+}
+
+/* Time Machine state locks mapping */
+.border-\[\#2D1E18\] {
+  border-color: #2D1E18 !important;
+  background: rgba(44, 30, 26, 0.03) !important;
+  color: #2D1E18 !important;
+}
+
+/* Recharts Dashboard and general visual tooltip customization */
+.recharts-default-tooltip {
+  background-color: rgba(255, 255, 255, 0.95) !important;
+  border: 1px solid rgba(44, 30, 26, 0.12) !important;
+  border-radius: 8px !important;
+  backdrop-filter: blur(10px) !important;
+  color: #2C221E !important;
+}
+
+.recharts-tooltip-label {
+  color: #2C221E !important;
+  font-weight: 600 !important;
+}
+
+/* Pulse animation dot matching gold amber */
+@keyframes pulseGlow {
+  0%, 100% {
+    opacity: 0.5;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1.25);
   }
 }
 
-body {
-  background: var(--background);
-  color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+.pulse-dot {
+  animation: pulseGlow 2.5s infinite ease-in-out;
+  background-color: #d97706 !important; /* Elegant gold amber */
+}
+
+/* Custom Scrollbar matching Glass Theme */
+::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+}
+
+::-webkit-scrollbar-track {
+  background: #F7F5F0;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(44, 30, 26, 0.1);
+  border-radius: 3px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgba(44, 30, 26, 0.2);
 }

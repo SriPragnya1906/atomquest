@@ -1,0 +1,122 @@
+// Prisma schema file for AtomQuest Performance Portal
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id            String       @id @default(uuid())
+  email         String       @unique
+  passwordHash  String
+  name          String
+  role          String       // "EMPLOYEE", "MANAGER", "ADMIN"
+  department    String
+  managerId     String?
+  manager       User?        @relation("ManagerToEmployee", fields: [managerId], references: [id])
+  employees     User[]       @relation("ManagerToEmployee")
+  goals         Goal[]       @relation("GoalEmployee")
+  ownedGoals    Goal[]       @relation("GoalOwner")
+  checkins      CheckIn[]
+  auditLogs     AuditLog[]
+  status        String       @default("ACTIVE") // "ACTIVE", "INACTIVE"
+  createdAt     DateTime     @default(now())
+  updatedAt     DateTime     @updatedAt
+}
+
+model Goal {
+  id               String        @id @default(uuid())
+  employeeId       String
+  employee         User          @relation("GoalEmployee", fields: [employeeId], references: [id], onDelete: Cascade)
+  ownerId          String        // Primary owner/creator of the goal
+  owner            User          @relation("GoalOwner", fields: [ownerId], references: [id])
+  title            String
+  description      String
+  thrustArea       String        // "Sales", "Operations", "HR", "Finance", "IT", "Other"
+  uomType          String        // "NUMERIC_MIN", "NUMERIC_MAX", "PERCENTAGE", "TIMELINE", "ZERO"
+  targetValue      Float?
+  targetDate       DateTime?
+  weightage        Float         // Percentage: e.g. 20 (meaning 20%)
+  status           String        @default("DRAFT") // "DRAFT", "SUBMITTED", "APPROVED", "LOCKED", "REJECTED"
+  lockedAt         DateTime?
+  sharedFromGoalId String?
+  parentGoal       Goal?         @relation("SharedGoals", fields: [sharedFromGoalId], references: [id])
+  sharedGoals      Goal[]        @relation("SharedGoals")
+  achievements     Achievement[]
+  checkins         CheckIn[]
+  auditLogs        AuditLog[]
+  createdAt        DateTime      @default(now())
+  updatedAt        DateTime      @updatedAt
+}
+
+model Achievement {
+  id                String   @id @default(uuid())
+  goalId            String
+  goal              Goal     @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  actualValue       Float?
+  actualDate        DateTime?
+  achievementStatus String   @default("NOT_STARTED") // "NOT_STARTED", "ON_TRACK", "COMPLETED"
+  progressScore     Float    @default(0) // Calculated: 0 to 100+ %
+  quarter           String   // "Q1", "Q2", "Q3", "Q4"
+  notes             String?
+  createdAt         DateTime @default(now())
+  updatedAt         DateTime @updatedAt
+}
+
+model CheckIn {
+  id          String    @id @default(uuid())
+  managerId   String
+  employeeId  String
+  goalId      String
+  goal        Goal      @relation(fields: [goalId], references: [id], onDelete: Cascade)
+  user        User      @relation(fields: [managerId], references: [id])
+  quarter     String    // "Q1", "Q2", "Q3", "Q4"
+  comment     String
+  completedAt DateTime?
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+}
+
+model AuditLog {
+  id         String   @id @default(uuid())
+  goalId     String?
+  goal       Goal?    @relation(fields: [goalId], references: [id], onDelete: SetNull)
+  userId     String
+  user       User     @relation(fields: [userId], references: [id])
+  action     String   // "CREATE", "UPDATE", "SUBMIT", "APPROVE", "REJECT", "UNLOCK", "LOG_ACHIEVEMENT", "ADD_COMMENT"
+  oldValue   String?
+  newValue   String?
+  reason     String?
+  timestamp  DateTime @default(now())
+}
+
+model Cycle {
+  id             String   @id @default(uuid())
+  name           String   // "FY 2024-25"
+  fiscalYear     Int
+  phase1Open     DateTime
+  phase1Close    DateTime
+  q1Open         DateTime
+  q1Close        DateTime
+  q2Open         DateTime
+  q2Close        DateTime
+  q3Open         DateTime
+  q3Close        DateTime
+  q4Open         DateTime
+  q4Close        DateTime
+  isActive       Boolean  @default(false)
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+}
+
+model SharedGoal {
+  id                         String   @id @default(uuid())
+  primaryGoalId              String
+  recipientEmployeeId        String
+  weightageInRecipientSheet  Float
+  createdAt                  DateTime @default(now())
+}
